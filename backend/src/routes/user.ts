@@ -13,7 +13,8 @@ Userapp.use(CookieParser());
 const signupBody=zod.object({
 email:zod.string().email(),
 password:zod.string().min(5),
-name:zod.string().optional()
+name:zod.string().optional(),
+role:zod.string(),
 })
 
 Userapp.post('/signup',async(req,res)=>{
@@ -28,6 +29,8 @@ Userapp.post('/signup',async(req,res)=>{
  const email=req.body.email;
  const password=req.body.password;
  const name=req.body.name;
+const role=req.body.role;
+
 
  const existingUser=await prisma.user.findUnique({
     where:{
@@ -47,7 +50,10 @@ const user=await prisma.user.create({
     data:{
         email:email,
         password:hashedPassword,
-        name:name
+        name:name,
+        role:role,
+        createdAt:new Date(),
+        updatedAt:new Date()
     }
 })
 
@@ -69,6 +75,61 @@ return res.json({
     })
  }
 
+})
 
-  
+const signInBody=zod.object({
+email:zod.string().email(),
+password:zod.string().min(5)
+});
+
+Userapp.post('/login',async(req,res)=>{
+const {success}=signInBody.safeParse(req.body);
+
+if(!success){
+    return res.status(401).json({
+        message:"Incorrect Inputs"
+    })
+}
+
+const email=req.body.email;
+const password=req.body.password;
+
+try{
+const existingUser=await prisma.user.findUnique({
+    where:{
+        email:email
+    }
+})
+
+if(!existingUser){
+    return res.status(403).json({
+        message:"User dosen't exist"
+    })
+}
+
+const validPassword=await bcrypt.compare(password,existingUser.password);
+if(!validPassword){
+    return res.status(403).json({
+        message:"Incorrect Password"
+    })
+}
+
+const token=await jwt.sign({id:existingUser.id},JWT_SECRET);
+
+res.cookie("token",token,{
+    httpOnly:true,
+    secure:process.env.NODE_ENV==='production',
+});
+
+return res.status(200).json({
+    token:token,
+    message:"Sign In Successful"
+})
+}
+catch(error){
+    return res.status(500).json({
+        message:"Some Error Happened",
+        error:error
+    })
+}
 })

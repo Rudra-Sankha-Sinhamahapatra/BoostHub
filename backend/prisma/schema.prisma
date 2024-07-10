@@ -13,9 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum roleEnum {
+  student
+  creator
+}
+
 model User{
   id Int @id @default(autoincrement())
   email String @unique
   name String? @default("Anonymous")
   password String
+  role roleEnum @default(student)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
