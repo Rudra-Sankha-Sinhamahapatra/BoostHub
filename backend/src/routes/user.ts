@@ -63,7 +63,7 @@ res.cookie("token",token,{
     secure:process.env.NODE_ENV==='production',
 });
 
-return res.json({
+return res.status(200).json({
     token:token,
     message:"User Created Successfully"
 })
