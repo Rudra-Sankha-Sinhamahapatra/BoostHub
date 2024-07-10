@@ -2,6 +2,8 @@ import Image from "next/image";
 import { FeatureCard as Card} from "@/components/FeatureCard";
 import { GetStarted } from "@/components/GetStarted";
 import { TC } from "@/components/TC";
+import Footer from "@/components/Footer";
+import { Socials } from "@/utils/Socials";
 
 export default function Home() {
   return (
@@ -34,6 +36,9 @@ export default function Home() {
     </div>
     <div className="mb-7">
       <TC/>
+    </div>
+    <div className="mt-3">
+   <Footer className="bg-purple-500 text-white" owner="BoostHub@2024" socials={Socials}/>
     </div>
    </div>
    </>
