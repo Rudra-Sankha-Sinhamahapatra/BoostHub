@@ -26,4 +26,64 @@ model User{
   role roleEnum @default(student)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  courses Course[]
+  feedbacks Feedback[]
+  comments Comment[]
+  likes Like[]
+}
+
+model Course {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  content String
+  teacher User @relation(fields: [teacherId],references: [id])
+  teacherId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  feedbacks Feedback[]
+  comments Comment[]
+  likes Like[]
+  ratings Rating[]
+}
+
+model Feedback {
+  id Int @id @default(autoincrement())
+  userId Int
+  courseId Int
+  comment String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  user User @relation(fields: [userId],references: [id])
+  course Course @relation(fields: [courseId],references: [id])
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  userId Int
+  courseId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  user User @relation(fields: [userId],references: [id])
+  course Course @relation(fields: [courseId],references: [id])
+}
+
+model Like {
+id Int @id @default(autoincrement())
+userId Int
+courseId Int
+createdAt DateTime @default(now())
+liked Boolean @default(false)
+user User @relation(fields: [userId],references: [id])
+course Course @relation(fields: [courseId],references: [id])
+}
+
+model Rating {
+  id Int @id @default(autoincrement())
+  userId Int
+  courseId Int
+  rating Int? @default(0) 
+  createdAt DateTime
+  updatedAt DateTime
+  course Course @relation(fields: [courseId],references: [id])
 }
