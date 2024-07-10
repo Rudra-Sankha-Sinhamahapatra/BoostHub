@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FeatureCard as Card} from "@/components/FeatureCard";
 import { GetStarted } from "@/components/GetStarted";
+import { TC } from "@/components/TC";
 
 export default function Home() {
   return (
@@ -30,6 +31,9 @@ export default function Home() {
     </div>
     <div>
       <GetStarted/>
+    </div>
+    <div className="mb-7">
+      <TC/>
     </div>
    </div>
    </>
