@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { BACKEND_URL } from "@/utils/conf";
 
-console.log(`Backend: ${BACKEND_URL}`);
 
 interface InputBoxProps {
   title: string;
