@@ -3,13 +3,17 @@ import jwt from 'jsonwebtoken'
 import zod from 'zod'
 import prisma from '../prisma';
 import bcrypt from 'bcrypt'
-import { JWT_SECRET } from '../conf';
+import { FRONTEND_URL, JWT_SECRET } from '../conf';
 import CookieParser from 'cookie-parser'
+import cors from 'cors'
 
 export const Userapp=express.Router();
 
 Userapp.use(CookieParser());
-
+Userapp.use(cors({
+    origin:`${FRONTEND_URL}`,
+    credentials:true
+}))
 const signupBody=zod.object({
 email:zod.string().email(),
 password:zod.string().min(5),
