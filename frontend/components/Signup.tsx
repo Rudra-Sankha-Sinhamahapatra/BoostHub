@@ -1,13 +1,14 @@
-"use client"
-
-import InputBox from "./InputBox";
+import CreateAccount from "./CreateAccount";
+import { cookies } from "next/headers";
+import NoPage from "./NoPage";
 
 export default function Signup() {
-
+    const token=cookies().get("token");
+    if(token){
+    return <NoPage label="You are Logged In,Please" choice="Logout" route="home" />
+    }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-           <InputBox type="signup" title="Create An Account" label1="Email" label2="Password" label3="Name" label4="Role" warning="Have an Account!" warningopt="Signin"/>
-        </div>
+       <CreateAccount/>
     );
 }
