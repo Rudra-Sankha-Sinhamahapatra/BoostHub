@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { FRONTEND_URL, JWT_SECRET } from "../conf";
 import CookieParser from "cookie-parser";
 import cors from "cors";
+import { authMiddleware } from "../middleware";
 
 export const Userapp = express.Router();
 
@@ -197,3 +198,100 @@ Userapp.get("/me", async (req, res) => {
     });
   }
 });
+
+const updateBody=zod.object({
+  email:zod.string().email(),
+  newemail:zod.string().email().optional(),
+  password:zod.string().min(5).optional(),
+  name:zod.string().min(1).optional(),
+  role:zod.string().optional()
+})
+
+Userapp.put('/update',authMiddleware,async(req,res)=>{
+const {success}=updateBody.safeParse(req.body);
+
+if(!success){
+  return res.status(401).json({
+    message:"Incorrect Inputs"
+  });
+}
+
+const email=req.body.email;
+const newmail=req.body.newmail;
+const password=req.body.password;
+const name=req.body.name;
+const role=req.body.role;
+
+try{
+const existingUser=await prisma.user.findUnique({
+  where:{
+    email:email,
+  },
+});
+
+if(!existingUser){
+  return res.status(404).json({
+    message:"User dosen't exists"
+  })
+}
+
+const updateData:any={};
+if(newmail)updateData.email=newmail;
+if(password)updateData.password=await bcrypt.hash(password,10);
+if(name) updateData.name=name;
+if(role)updateData.role=role;
+updateData.updatedAt=new Date();
+
+const user=await prisma.user.update({
+  where:{
+  email:email
+  },
+  data:updateData,
+})
+
+return res.status(200).json({
+  message:"Updated Data Sucessfully",
+  user:user,
+});
+
+}
+catch(error){
+  res.status(500).json({
+    message:"Internal Server error,or user dosent exists",
+    error:error
+  })
+}
+})
+
+Userapp.get('/courses',authMiddleware,async(req:any,res:any)=>{
+  try {
+    const courses=await prisma.course.findMany({
+      where:{teacherId:req.user.id},
+      select:{
+      id:true,
+      title:true,
+      description:true,
+      content:true,
+      teacherId:true,
+      teacher:{
+       select:{
+        name:true,
+        role:true
+       }
+      },
+      updatedAt:true,
+      createdAt:true
+      }
+    });
+
+
+  return  res.status(200).json({
+   courses:courses
+  })
+  } catch (error) {
+    return res.status(500).json({
+      message:"Internal Server Error",
+      error:error
+    })
+  }
+})
