@@ -20,7 +20,7 @@ export const TC = () => {
             Our app does not promote any kind of violence or abusive content. Students are advised to use the app with fair use. Any kind of violence can terminate your access to this app.
           </p>
           <p>
-            Creators should not promote any violence, fake courses, or anything that goes against the country's laws. Otherwise, creators will also be banned.
+            Creators should not promote any violence, fake courses, or anything that goes against the country&apos;s laws. Otherwise, creators will also be banned.
           </p>
           <h2 className="text-xl text-violet-500 font-semibold mt-4">3. Student Conduct</h2>
           <p>
