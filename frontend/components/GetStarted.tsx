@@ -1,15 +1,20 @@
-import { Button } from "./Button"
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from "@/utils/conf";
+import { SignInStarted } from "./SignInnStarted";
+import { cookies } from 'next/headers';
+import { HomeStarted } from './HomeStarted';
 
 export const GetStarted=()=>{
-    return(
-        <div className="flex justify-center">
-        <div className="dark:text-white mt-2">
-         Explore More
-         <div>
+    const token = cookies().get("token");
+    const value = token?.value || "";
 
-         </div>
-         <Button content="Get Started" className="bg-purple-500 text-white py-2 px-3 rounded-md mt-2  hover:bg-purple-800"/>
-        </div>
-        </div>
-    )
+    try{
+      const res=jwt.verify(value,JWT_SECRET);
+      if(res){
+        return <HomeStarted/>
+      }
+    }
+    catch(error){
+    return <SignInStarted/>
+    }
 }
