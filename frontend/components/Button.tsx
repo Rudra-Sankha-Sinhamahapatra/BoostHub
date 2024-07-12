@@ -7,7 +7,7 @@ interface ButtonProps{
 }
 
 
-export const Button:React.FC<ButtonProps>=memo(({content,className,onClick})=>{
+ const Button:React.FC<ButtonProps>=memo(({content,className,onClick})=>{
     return(
         <div>
             <button className={className} onClick={onClick}>
@@ -17,3 +17,7 @@ export const Button:React.FC<ButtonProps>=memo(({content,className,onClick})=>{
        
     )
 })
+
+Button.displayName = "Button";
+
+export default Button;

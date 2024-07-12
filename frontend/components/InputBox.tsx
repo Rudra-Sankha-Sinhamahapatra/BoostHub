@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { Button } from "./Button";
+import  Button  from "./Button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { BACKEND_URL } from "@/utils/conf";
@@ -50,7 +50,7 @@ export default function InputBox({
     } catch (error) {
       console.error(error);
     }
-  }, [email, password]);
+  }, [email, password,router]);
 
   const handleSignup = useCallback(async () => {
     try {
@@ -70,7 +70,7 @@ export default function InputBox({
     } catch (error) {
       console.error(error);
     }
-  }, [email, password, name, role]);
+  }, [email, password, name, role,router]);
 
   const togglePasswordVisibility = useCallback(() => {
     setShowPassword((showPassword) => !showPassword);

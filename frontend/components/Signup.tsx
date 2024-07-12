@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from "@/utils/conf";
 import CreateAccount from "./CreateAccount";
 
-export default function Signin() {
+export default function Signup() {
     const token = cookies().get("token");
     const value = token?.value || "";
 
@@ -18,8 +18,7 @@ export default function Signin() {
                 isLoggedIn = true;
             }
         } catch (error) {
-            // Log the error or handle it if needed
-            console.error("Token verification error:", error);
+            console.error("Token verification error:");
         }
     }
 

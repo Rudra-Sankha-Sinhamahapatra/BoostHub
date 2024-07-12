@@ -17,8 +17,7 @@ export default function Signin() {
                 isLoggedIn = true;
             }
         } catch (error) {
-            // Log the error or handle it if needed
-            console.error("Token verification error:", error);
+            console.error("Token verification error:");
         }
     }
 
