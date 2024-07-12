@@ -65,6 +65,7 @@ const token=await jwt.sign({id:user.id},JWT_SECRET)
 res.cookie("token",token,{
     httpOnly:true,
     secure:process.env.NODE_ENV==='production',
+    maxAge:2*30*24*60*60*1000
 });
 
 return res.status(200).json({
@@ -123,6 +124,7 @@ const token=await jwt.sign({id:existingUser.id},JWT_SECRET);
 res.cookie("token",token,{
     httpOnly:true,
     secure:process.env.NODE_ENV==='production',
+    maxAge:2*30*24*60*60*1000
 });
 
 return res.status(200).json({
