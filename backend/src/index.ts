@@ -2,10 +2,13 @@ import express from 'express'
 import cors from 'cors'
 import { Userapp } from './routes/user';
 import { FRONTEND_URL } from './conf';
+import { courseRouter } from './routes/course';
+import cookieParser from 'cookie-parser';
 
 const PORT=3001;
 const app=express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     origin:`${FRONTEND_URL}`,
     credentials:true
@@ -13,7 +16,10 @@ app.use(cors({
 
 const router=express.Router();
 
+
+
 app.use('/bh/v1/user',Userapp);
+app.use('/bh/v1/course',courseRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server Running on port ${PORT}`);
