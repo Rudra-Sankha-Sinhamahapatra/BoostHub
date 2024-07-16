@@ -72,3 +72,131 @@ feedbackRouter.get('/feedbacks',authMiddleware,async(req:any,res:any)=>{
    })
     }
 })
+
+const createSchema=zod.object({
+    courseId:zod.number().min(1),
+    comment:zod.string().min(1)
+})
+
+feedbackRouter.post('/create',authMiddleware,async(req:any,res)=>{
+const success=createSchema.safeParse(req.body);
+if(!success){
+    return res.status(401).json({
+        message:"Incorrect Inputs"
+    })
+}
+const courseId=req.body.courseId;
+const comment=req.body.comment;
+const userId=req.user.id;
+
+
+try {
+    const newFeedback=await prisma.feedback.create({
+     data:{
+        courseId:courseId,
+        comment:comment,
+        userId:userId
+     }
+    });
+
+    return res.status(200).json({
+        message:"feedback created sucessfully",
+        feedback:newFeedback
+    })
+} catch (error) {
+    return res.status(500).json({
+        message:"Internal server error"
+    })
+}
+})
+
+const updateSchema=zod.object({
+    comment:zod.string().min(1,"Minimum one letter needed")
+})
+
+feedbackRouter.put("/:id/update",authMiddleware,async(req:any,res:any)=>{
+
+ const success=updateSchema.safeParse(req.body);
+ if(!success){
+    return res.status(401).json({
+        message:"Incorrect Inputs"
+    });
+ }
+
+ const feedbackId=parseInt(req.params.id);
+ const comment=req.body.comment;
+ const userId=req.user.id;
+
+try {
+
+    const feeback=await prisma.feedback.findUnique({
+        where:{id:Number(feedbackId)},
+    })
+
+    if(!feeback){
+        return res.status(404).json({
+            message:"No feedbacks found!"
+        })
+    }
+
+    if(feeback.userId!==userId){
+        return res.sttaus(403).json({
+            message:"You are not authorized to update it"
+        })
+    }
+
+    const updatedFeedback=await prisma.feedback.update({
+        where:{
+        id:Number(feedbackId)
+        },
+        data:{
+            comment:comment,
+        }
+    })
+
+    return res.status(200).json({
+        message:"Feedback updated successfully",
+       updatedFeedback:updatedFeedback
+    })
+} catch (error) {
+    return res.status(500).json({
+        message:"Internal server error",
+        error:error
+    })
+}
+})
+
+feedbackRouter.delete("/:id/delete",authMiddleware,async(req:any,res)=>{
+    const feedbackId=parseInt(req.params.id);
+    const userId=req.user.id;
+
+    try {
+        const feedback=await prisma.feedback.findUnique({
+            where:{id:Number(feedbackId)},
+        });
+
+
+        if(!feedback){
+            return res.status(404).json({
+                message:"No feedback found"
+            })
+        }
+
+        const deletedFeedback=await prisma.feedback.delete({
+            where:{
+                id:feedbackId,
+            }
+        })
+
+        return res.status(200).json({
+            message:"Feedback deleted successfully",
+            deletedFeedback:deletedFeedback
+        })
+
+    }  catch(error){
+        return res.status(500).json({
+            message:"Internal Server Error",
+            error:error
+        })
+    }
+})
