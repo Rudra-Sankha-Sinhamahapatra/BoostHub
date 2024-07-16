@@ -208,7 +208,7 @@ courseRouter.get('/:id',authMiddleware,async(req,res)=>{
   }
 })
 
-courseRouter.put("/:id/update",authMiddleware,async(req,res)=>{
+courseRouter.put("/:id/update",authMiddleware,async(req:any,res)=>{
     const {id}=req.params;
 
     const updateCourseSchema=zod.object({
@@ -226,6 +226,26 @@ courseRouter.put("/:id/update",authMiddleware,async(req,res)=>{
         })
       }
 
+      const course=await prisma.course.findUnique({
+        where:{
+          id:Number(id)
+        },
+        select:{
+          teacherId:true
+        }
+      })
+
+      if(!course){
+        return res.status(404).json({
+          message:"This course dosen't exists"
+        })
+      }
+
+      if(course.teacherId!==req.user.id){
+        return res.status(403).json({
+          message:"You dont have permission to update the course"
+        })
+      }
       
       const title=req.body.title;
       const description=req.body.description;
@@ -258,9 +278,30 @@ courseRouter.put("/:id/update",authMiddleware,async(req,res)=>{
     }
 })
 
-courseRouter.post("/:id/delete",authMiddleware,async(req,res)=>{
+courseRouter.post("/:id/delete",authMiddleware,async(req:any,res)=>{
   const {id}=req.params;
   try{
+const course=await prisma.course.findUnique({
+  where:{
+    id:Number(id)
+  },
+  select:{
+    teacherId:true
+  }
+});
+
+if(!course){
+  return res.status(404).json({
+    message:"Course dosen't exists"
+  })
+}
+
+if(course.teacherId!==req.user.id){
+return res.status(401).json({
+  message:"You dont have permission to delete the course"
+})
+}
+
 await prisma.course.delete({
   where:{
     id:Number(id),

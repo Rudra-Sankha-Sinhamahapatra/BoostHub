@@ -5,6 +5,8 @@ import { FRONTEND_URL } from './conf';
 import { courseRouter } from './routes/course';
 import cookieParser from 'cookie-parser';
 import { feedbackRouter } from './routes/feedback';
+import { commentRouter } from './routes/comment';
+import { likesRouter } from './routes/like';
 
 const PORT=3001;
 const app=express();
@@ -22,6 +24,8 @@ const router=express.Router();
 app.use('/bh/v1/user',Userapp);
 app.use('/bh/v1/course',courseRouter);
 app.use('/bh/v1/feedback',feedbackRouter);
+app.use("/bh/v1/comment",commentRouter);
+app.use("/bh/v1/like",likesRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server Running on port ${PORT}`);

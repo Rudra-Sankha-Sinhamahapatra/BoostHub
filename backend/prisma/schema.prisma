@@ -62,6 +62,7 @@ model Comment {
   id Int @id @default(autoincrement())
   userId Int
   courseId Int
+  comment String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   user User @relation(fields: [userId],references: [id])
@@ -76,6 +77,8 @@ createdAt DateTime @default(now())
 liked Boolean @default(false)
 user User @relation(fields: [userId],references: [id])
 course Course @relation(fields: [courseId],references: [id])
+
+@@unique([userId,courseId])
 }
 
 model Rating {
