@@ -129,18 +129,18 @@ feedbackRouter.put("/:id/update",authMiddleware,async(req:any,res:any)=>{
 
 try {
 
-    const feeback=await prisma.feedback.findUnique({
+    const feedback=await prisma.feedback.findUnique({
         where:{id:Number(feedbackId)},
     })
 
-    if(!feeback){
+    if(!feedback){
         return res.status(404).json({
             message:"No feedbacks found!"
         })
     }
 
-    if(feeback.userId!==userId){
-        return res.sttaus(403).json({
+    if(feedback.userId!==userId){
+        return res.status(411).json({
             message:"You are not authorized to update it"
         })
     }
@@ -179,6 +179,12 @@ feedbackRouter.delete("/:id/delete",authMiddleware,async(req:any,res)=>{
         if(!feedback){
             return res.status(404).json({
                 message:"No feedback found"
+            })
+        }
+
+        if(feedback.userId!==userId){
+            return res.status(411).json({
+                message:"You are not authorized to delete the feedback"
             })
         }
 
