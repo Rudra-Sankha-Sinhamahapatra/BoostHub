@@ -1,12 +1,16 @@
 "use client"
 
+import Courses from "./Courses"
+
 
 export default function Home(){
  
     return(
         <>
         <div>
-            Home
+           <div>
+            <Courses/>
+           </div>
         </div>
         </>
     )

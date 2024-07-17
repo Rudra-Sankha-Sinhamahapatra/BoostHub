@@ -2,9 +2,19 @@ import express from 'express';
 import { authMiddleware } from '../middleware';
 import prisma from '../prisma'; 
 import zod from 'zod'
+import cookieParser from 'cookie-parser';
+import { FRONTEND_URL } from '../conf';
+import cors from "cors"
 
 export const courseRouter = express.Router();
 
+courseRouter.use(cookieParser());
+courseRouter.use(
+  cors({
+    origin: `${FRONTEND_URL}`,
+    credentials: true,
+  })
+);
 
 const creationBody = zod.object({
     title: zod.string().min(3),
