@@ -243,3 +243,74 @@ ratingRouter.post("/create",authMiddleware,async(req:any,res)=>{
         })
     }
 })
+
+const deleteSchema=zod.object({
+    courseId:zod.number().min(1)
+})
+
+ratingRouter.delete("/delete",authMiddleware,async(req:any,res)=>{
+
+    const success=deleteSchema.safeParse(req.body);
+
+    if(!success){
+        return res.status(403).json({
+            message:'Incorrect Inputs'
+        })
+    }
+
+    try {
+        const courseId=req.body.courseId;
+        const userId=req.user.id;
+
+
+const courseExists=await prisma.course.findUnique({
+    where:{
+        id:Number(courseId)
+    }
+})
+
+if(!courseExists){
+    return res.status(404).json({
+        message:"This course dosen't exists"
+    })
+}
+
+        const ratingExists=await prisma.rating.findUnique({
+            where:{
+               userId_courseId:{
+                userId:userId,
+                courseId:courseId
+               }
+            }
+        })
+
+       if(!ratingExists){
+        return res.status(404).json({
+            message:"This rating dosen't exists"
+        })
+       }
+
+       if(ratingExists.userId!==userId){
+        return res.status(401).json({
+            message:"You can't delete other's ratings"
+        })
+       }
+
+        const deletedRating=await prisma.rating.delete({
+            where:{id:Number(ratingExists.id)}
+        })
+
+        return res.status(200).json({
+            message:"Rating deleted successfully",
+            id:deletedRating.id,
+            userId:deletedRating.userId,
+            courseId:deletedRating.courseId
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal Server Error",
+            error:error
+        })
+    }
+})
