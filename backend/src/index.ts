@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { feedbackRouter } from './routes/feedback';
 import { commentRouter } from './routes/comment';
 import { likesRouter } from './routes/like';
+import { ratingRouter } from './routes/rating';
 
 const PORT=3001;
 const app=express();
@@ -26,6 +27,7 @@ app.use('/bh/v1/course',courseRouter);
 app.use('/bh/v1/feedback',feedbackRouter);
 app.use("/bh/v1/comment",commentRouter);
 app.use("/bh/v1/like",likesRouter);
+app.use("/bh/v1/rating",ratingRouter);
 
 app.listen(PORT,()=>{
     console.log(`Server Running on port ${PORT}`);
