@@ -15,7 +15,6 @@ export default function Courses() {
                 withCredentials: true,
             });
             setCourses(response.data.courses);
-            console.log("Courses fetched:", response.data);
         } catch (error) {
             console.error("Fetch error:", error);
             setError("Failed to fetch courses");
@@ -39,19 +38,23 @@ export default function Courses() {
     return (
         <>
             <div className="min-h-screen dark:bg-black bg-white dark:text-white">
-                <div className="flex flex-row justify-center gap-5 text-violet-500 mb-8 ml-3 mt-2">
-                    <div>My Courses</div>
-                    <div>Create Course</div>
-                    <div>Info</div>
+                <div className="flex flex-row justify-center gap-5 text-violet-500  mb-8 ml-3 mt-2">
+                    <div className="cursor-pointer hover:text-violet-700">My Courses</div>
+                    <div className="cursor-pointer hover:text-violet-700">Create Course</div>
+                    <div className="cursor-pointer hover:text-violet-700">Info</div>
                 </div>
                 <h1 className="dark:text-white text-center text-semibold mb-5">Available Courses</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
                     {courses.length > 0 ? (
                         courses.map((course: any) => (
-                            <div key={course.id} className="bg-white shadow-lg rounded-lg p-4 border border-t-2">
-                                <h2 className="text-xl font-semibold text-violet-500">{course.title}</h2>
-                                <p className="text-gray-600 mt-2 ">{course.description}</p>
-                                <p className="text-gray-500 mt-1 max-h-24 max-w-full overflow-hidden overflow-ellipsis">{course.content}</p>
+                            <div key={course.id} className="bg-white shadow-lg rounded-lg p-4 pr-1 border border-t-2 max-h-80">
+                                <div className="flex-grow">
+                                <h2 className="text-xl font-semibold text-violet-500 max-h-10 overflow-hidden overflow-ellipsis">{course.title}</h2>
+                                <p className="font-bold mt-2 text-violet-500">About</p>
+                                <p className="text-gray-600 mt-1 max-h-18 overflow-hidden overflow-ellipsis">{course.description}</p>
+                                <p className="font-bold mt-2 text-violet-500">Content</p>
+                                <p className="text-gray-500 mt-1 max-h-12 w-full  overflow-hidden overflow-ellipsis">{course.content}</p>
+                                </div>
                                 <div className="mt-4">
                                     <Button className="bg-violet-500 text-white rounded px-3 py-1 hover:bg-violet-700" content="View Details"></Button>
                                 </div>
