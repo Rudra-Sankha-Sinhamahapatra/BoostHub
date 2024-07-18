@@ -1,31 +1,32 @@
+"use client"
+
 import { BACKEND_URL } from "@/utils/conf";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import Button from "./Button";
 
-export default function Courses() {
-    const [courses, setCourses] = useState([]);
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
+export const MyCourses=()=>{
+    const [courses,setCourses]=useState([]);
+    const [error,setError]=useState("");
+    const [loading,setLoading]=useState(true);
 
-    const fetchCourses = async () => {
-        setLoading(true);
+    const fetchCourses=async()=>{
         try {
-            const response = await axios.get(`${BACKEND_URL}/bh/v1/course/courses`, {
-                withCredentials: true,
+            const response=await axios.get(`${BACKEND_URL}/bh/v1/user/courses`,{
+                withCredentials:true,
             });
-            setCourses(response.data.courses);
+            setCourses(response.data.courses)
         } catch (error) {
-            console.error("Fetch error:", error);
             setError("Failed to fetch courses");
-        } finally {
-            setLoading(false);
+        }
+        finally {
+         setLoading (false);
         }
     };
 
-    useEffect(() => {
-        fetchCourses();
-    }, []);
+    useEffect(()=>{
+     fetchCourses();
+    },[])
 
     if (loading) {
         return <div className="dark:text-white flex justify-center mt-10">Loading ...</div>;
@@ -35,11 +36,13 @@ export default function Courses() {
         return <div className="dark:text-white flex justify-center mt-10">Error Occurred: {error}</div>;
     }
 
-    return (
+    return(
         <>
-            <div className="min-h-screen dark:bg-black bg-white dark:text-white">
-                <h1 className="dark:text-white text-center mb-5">Available Courses</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+        <div className="dark:bg-black dark:text-white min-h-screen">
+        <div className="flex justify-center mb-5">
+         My Courses
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
                     {courses.length > 0 ? (
                         courses.map((course: any) => (
                             <div key={course.id} className="bg-white shadow-lg rounded-lg p-4 pr-1 border border-t-2 max-h-80">
@@ -56,10 +59,14 @@ export default function Courses() {
                             </div>
                         ))
                     ) : (
-                        <p className="text-bold">No courses available.</p>
+                        <div className="flex justify-center mt-6 md:relative md:-right-2/3 md:mr-24
+                        lg:-right-full
+                        lg:ml-28 xl:ml-28">
+                          <p className=" dark:text-white">No courses available</p>
+                        </div>
                     )}
-                </div>
-            </div>
+                    </div>
+        </div>
         </>
-    );
+    )
 }
