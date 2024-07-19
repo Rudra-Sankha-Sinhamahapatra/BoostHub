@@ -4,7 +4,8 @@ import  Button  from "./Button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { BACKEND_URL } from "@/utils/conf";
-
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface InputBoxProps {
   title: string;
@@ -30,7 +31,7 @@ export default function InputBox({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("student");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
@@ -46,7 +47,11 @@ export default function InputBox({
           withCredentials: true,
         }
       );
-      router.push('/home');
+      toast.success("Signed In Successfully!")
+
+      setTimeout(()=>{
+      router.push('/home')
+      },3200);
     } catch (error) {
       console.error(error);
     }
@@ -66,7 +71,12 @@ export default function InputBox({
           withCredentials: true,
         }
       );
-      router.push("/home");
+      toast.success("Signed Up Successfully!")
+
+      setTimeout(()=>{
+      router.push('/home')
+      },3200);
+
     } catch (error) {
       console.error(error);
     }
@@ -77,6 +87,17 @@ export default function InputBox({
   }, []);
   return type === "signin" ? (
     <>
+     <ToastContainer 
+            position="top-center"
+            autoClose={4000}
+            closeOnClick
+            newestOnTop={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"/>
+
       <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-8 w-80 md:w-96 mb-10">
         <div className="flex flex-col">
           <label
@@ -140,6 +161,17 @@ export default function InputBox({
     </>
   ) : (
     <>
+     <ToastContainer 
+            position="top-center"
+            autoClose={4000}
+            closeOnClick
+            newestOnTop={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"/>
+            
       <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-8 w-80 md:w-96">
         <div className="flex flex-col">
           <label
