@@ -1,37 +1,71 @@
 "use client"
 
-import { BACKEND_URL } from "@/utils/conf";
 import { useRouter } from "next/navigation"
-
+import Button from "./Button";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import { BACKEND_URL } from "@/utils/conf";
+import { useCallback } from "react";
 
 export const Nav=()=>{
 
     const router=useRouter();
 
-    const homeHandler=()=>{
+    const homeHandler=useCallback(()=>{
         router.push(`/home`)
-    }
+    },[router])
 
-    const createHandler=()=>{
+    const createHandler=useCallback(()=>{
         router.push(`/home/create`)
-    }
+    },[router])
 
-    const myCoursesHandler=()=>{
+    const myCoursesHandler=useCallback(()=>{
         router.push(`/home/mycourse`)
-    }
+    },[router])
 
-    const infoHandler=()=>{
+    const infoHandler=useCallback(()=>{
         router.push(`/home/info`)
+    },[router])
+
+    const logout=useCallback(async()=>{
+    try {
+        await axios.post(`${BACKEND_URL}/bh/v1/user/logout`,{},{
+            withCredentials:true,
+        })
+
+        toast.success("Logged out Successfully!")
+
+        setTimeout(()=>{
+        router.push('/')
+        },3200)
+    } catch (error) {
+        toast.error("Logout Failed",{
+            autoClose:2000
+        })
     }
+    },[router])
 
     return(
         <>
-          <div className=" grid grid-cols-4 gap-5 md:flex md:flex-row md:justify-center md:gap-5 text-violet-500  mb-8 ml-3 mt-2">
+            <ToastContainer 
+            position="top-center"
+            autoClose={4000}
+            closeOnClick
+            newestOnTop={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"/>
+
+          <div className=" grid grid-cols-5 gap-3 md:flex md:flex-row md:justify-center md:gap-5 text-violet-500  mb-8 ml-3 mt-2">
                     <div className="cursor-pointer hover:text-violet-700" onClick={myCoursesHandler}>My Courses</div>
                     <div className="cursor-pointer hover:text-violet-700" onClick={homeHandler}>Home</div>
                     <div className="cursor-pointer hover:text-violet-700" onClick={createHandler}>Create Course</div>
                     <div className="cursor-pointer hover:text-violet-700" onClick={infoHandler}>Rules</div>
-                </div>
+                    <Button content="Logout" className="text-white bg-violet-500 py-2 px-3 ml-3 mr-56 rounded-md  mb-4 hover:bg-violet-700" onClick={logout}/>
+        </div>                
         </>
     )
 }

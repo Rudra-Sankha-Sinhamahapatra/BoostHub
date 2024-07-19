@@ -139,6 +139,37 @@ Userapp.post("/login", async (req, res) => {
   }
 });
 
+
+Userapp.post("/logout",authMiddleware,async(req:any,res)=>{
+const userId=req.user.id;
+  try {
+ const existingUser=await prisma.user.findUnique({
+  where:{
+    id:userId,
+  },
+ });
+
+ if(!existingUser){
+  return res.status(404).json({
+    message:"User dosent exists"
+  })
+ }
+
+res.clearCookie("token");
+
+return res.status(200).json({
+  message:"Logged out Successfully"
+})
+
+}
+catch (error){
+  return res.status(500).json({
+    message:"Internal Server Error",
+    error:error
+  })
+}
+})
+
 Userapp.get("/me", async (req, res) => {
   const token = req.cookies.token;
 

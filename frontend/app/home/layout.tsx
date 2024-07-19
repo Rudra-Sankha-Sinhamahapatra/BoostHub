@@ -17,7 +17,7 @@ export default function layout({
             <div>
             {children}
             </div>
-            <Footer className="bg-purple-500 text-white" owner="BoostHub@2024" socials={Socials}/>
+            <Footer className="bg-purple-500 text-white mt-4 sm:mr-0" owner="BoostHub@2024" socials={Socials}/>
         </div>
     )
 }
