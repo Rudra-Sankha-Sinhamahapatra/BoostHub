@@ -129,7 +129,7 @@ export const ViewCourseDetails = () => {
                                 <p className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.teacher.role}</p>
                                 <p className="font-bold mt-4 md:mt-6 text-violet-500">Created At: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.createdAt.date} at {course.createdAt.time}</span></p>
                                 <p className="font-bold mt-4 md:mt-6 text-violet-500">Likes: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalLikes}</span></p>
-                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Ratings Given Users: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalRatings}</span></p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Ratings Given by Users: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalRatings}</span></p>
                                 <p className="font-bold mt-4 md:mt-6 text-violet-500">Rating: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.averageRating}</span></p>
                                 <div className="flex flex-col md:flex-row md:space-x-3">
                                     <button
