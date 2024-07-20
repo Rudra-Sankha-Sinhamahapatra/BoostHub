@@ -2,11 +2,13 @@ import { BACKEND_URL } from "@/utils/conf";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "./Button";
+import {useRouter} from "next/navigation";
 
 export default function Courses() {
     const [courses, setCourses] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const router=useRouter();
 
     const fetchCourses = async () => {
         setLoading(true);
@@ -51,7 +53,10 @@ export default function Courses() {
                                 <p className="text-gray-500 mt-1 max-h-12 w-full  overflow-hidden overflow-ellipsis">{course.content}</p>
                                 </div>
                                 <div className="mt-4">
-                                    <Button className="bg-violet-500 text-white rounded px-3 py-1 hover:bg-violet-700" content="View Details"></Button>
+                                    <Button className="bg-violet-500 text-white rounded px-3 py-1 hover:bg-violet-700" content="View Details"
+                                    onClick={()=>{
+                                        router.push(`/home/course/${course.id}`)
+                                    }}></Button>
                                 </div>
                             </div>
                         ))
