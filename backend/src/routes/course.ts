@@ -241,7 +241,8 @@ courseRouter.get('/:id',authMiddleware,async(req:any,res)=>{
       totalLikes:totalLikes.toString(),
       totalRatings:totalRatings.toString(),
       averageRating:averageRating.toString(),
-      liked:userHasLiked
+      liked:userHasLiked,
+      comments:course.comments
 
     });
   } catch (error) {

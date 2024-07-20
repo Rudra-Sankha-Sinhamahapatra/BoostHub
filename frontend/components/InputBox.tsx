@@ -117,7 +117,7 @@ export default function InputBox({
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="jimmy@gmail.com"
+            placeholder="jimmy@gmail.com (gmail format)"
             className="mt-2 p-2 mx-4 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700"
           />
           <label
@@ -132,7 +132,7 @@ export default function InputBox({
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="jimmy678"
+              placeholder="jimmy678 (Min 5 letters)"
               className="p-2 w-full border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700"
             />
             <button
@@ -191,7 +191,7 @@ export default function InputBox({
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="jimmy@gmail.com"
+            placeholder="jimmy@gmail.com(Gmail format)"
             className="mt-2 p-2 mx-4 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700"
           />
           <label
@@ -206,7 +206,7 @@ export default function InputBox({
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="jimmy678"
+              placeholder="jimmy678 (min 5 letters)"
               className="p-2 w-full border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700"
             />
             <button
@@ -224,7 +224,7 @@ export default function InputBox({
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="James Taylor"
+              placeholder="James Taylor (Optional)"
               className="p-2 w-full border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700"
             />
           </div>
