@@ -6,6 +6,8 @@ import { BACKEND_URL } from '@/utils/conf';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import Button from './Button';
+import Link from 'next/link';
 
 interface Course {
     id: string;
@@ -39,7 +41,6 @@ export const ViewCourseDetails = () => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        
         const fetchCourseDetails = async () => {
             try {
                 if (id) {
@@ -66,24 +67,23 @@ export const ViewCourseDetails = () => {
         if(!course) return;
         try {
             const response = await axios.post(`${BACKEND_URL}/bh/v1/like/create`, {
-                courseId:Number(id),
+                courseId: Number(id),
                 liked: !course.liked
             }, {
                 withCredentials: true,
             });
 
-
             if (response.status === 200) {
                 setCourse(prev => {
                     if(!prev) return prev;
-                    const newLike=!prev.liked;
+                    const newLike = !prev.liked;
                     return {
-                    ...prev,
-                    liked: newLike,
-                    totalLikes:newLike?String(Number(prev.totalLikes)+1) : String(Number(prev.totalLikes)-1)
-                    }
+                        ...prev,
+                        liked: newLike,
+                        totalLikes: newLike ? String(Number(prev.totalLikes) + 1) : String(Number(prev.totalLikes) - 1)
+                    };
                 });
-                toast.success(course?.liked ? "Course unliked" : "Course liked");
+                toast.success(course.liked ? "Course unliked" : "Course liked");
             } else {
                 console.error('Unexpected response status:', response.status);
                 toast.error("Failed to like course");
@@ -109,50 +109,60 @@ export const ViewCourseDetails = () => {
     return (
         <>
             <div>
-                <div className="dark:text-white text-center mt-3 mb-3">
+                <div className="dark:text-white text-center mt-3 mb-3 text-2xl">
                     Course Details
                 </div>
-                <div className="dark:bg-black dark:text-white min-h-screen">
-                    <div className="flex justify-center px-4">
-                        <div key={course.id} className="bg-white shadow-lg rounded-lg p-4 pr-1 border border-t-2">
+                <div className="dark:bg-black dark:text-white min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+                    <div className="flex justify-center">
+                        <div key={course.id} className="bg-white shadow-lg rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 border border-t-2 max-w-screen-md w-full">
                             <div className="flex-grow">
-                                <h2 className="text-xl font-semibold text-violet-500 max-h-10 overflow-hidden overflow-ellipsis text-center">{course.title}</h2>
-                                <p className="font-bold mt-2 text-violet-500">About</p>
-                                <p className="text-gray-600 mt-1 max-h-18 overflow-hidden overflow-ellipsis">{course.description}</p>
-                                <p className="font-bold mt-2 text-violet-500">Content</p>
-                                <p className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.content}</p>
-                                <p className="font-bold mt-2 text-violet-500">Teacher</p>
-                                <p className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.teacher.name}</p>
-                                <p className="font-bold mt-2 text-violet-500">Role</p>
-                                <p className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.teacher.role}</p>
-                                <p className="font-bold mt-2 text-violet-500">Created At: <span className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.createdAt.date} on {course.createdAt.time}</span></p>
-                                <p className="font-bold mt-2 text-violet-500">Likes :<span className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalLikes}</span></p>
-                                <p className="font-bold mt-2 text-violet-500">Ratings Given Users:<span className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalRatings}</span></p>
-                                <p className="font-bold mt-2 text-violet-500">Rating:<span className="text-gray-500 mt-1 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.averageRating}</span></p>
-                                <button
-                                    onClick={handleLike}
-                                    className={`mt-4 flex items-center justify-center p-2 rounded-full ${course.liked ? 'text-red-500' : 'text-violet-500'} hover:bg-gray-200`}
-                                >
-                                    {course.liked ? <FaHeart size={24} /> : <FaRegHeart size={24} />}
-                                    <span className="ml-2">{course.liked ? 'Unlike' : 'Like'}</span>
-                                </button>
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-violet-500 max-h-10 overflow-hidden overflow-ellipsis text-center">
+                                    {course.title}
+                                </h2>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">About</p>
+                                <p className="text-gray-600 mt-2 md:mt-3 max-h-18 overflow-hidden overflow-ellipsis">{course.description}</p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Content</p>
+                                <p className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.content}</p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Teacher</p>
+                                <p className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.teacher.name}</p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Role</p>
+                                <p className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.teacher.role}</p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Created At: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.createdAt.date} at {course.createdAt.time}</span></p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Likes: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalLikes}</span></p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Ratings Given Users: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalRatings}</span></p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Rating: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.averageRating}</span></p>
+                                <div className="flex flex-col md:flex-row md:space-x-3">
+                                    <button
+                                        onClick={handleLike}
+                                        className={`w-fit mt-4 flex items-center justify-center p-2 rounded-full ${course.liked ? 'text-red-500' : 'text-violet-500'} hover:bg-gray-200`}
+                                    >
+                                        {course.liked ? <FaHeart size={24} /> : <FaRegHeart size={24} />}
+                                        <span className="ml-2">{course.liked ? 'Unlike' : 'Like'}</span>
+                                    </button>
+                                    <Link href={`/home/course/${id}/comment`}>
+                                        <Button content="Comments" className="text-white bg-violet-500 py-2 px-3 mt-4 md:mt-6 rounded-md mb-4 hover:bg-violet-700" />
+                                    </Link>
+                                    <Link href={`/home/course/${id}/feedback`}>
+                                        <Button content="Feedbacks" className="text-white bg-violet-500 py-2 px-3 mt-4 md:mt-6 rounded-md mb-4 hover:bg-violet-700" />
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <ToastContainer
-            position='top-center'
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme='colored'
-             />
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     );
 };
