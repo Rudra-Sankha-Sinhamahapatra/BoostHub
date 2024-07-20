@@ -25,9 +25,9 @@ interface Course {
         name: string;
         role: string;
     };
-    totalLikes: number;
-    totalRatings: number;
-    averageRating: number;
+    totalLikes: string;
+    totalRatings: string;
+    averageRating: string;
     liked: boolean;
 }
 
@@ -63,21 +63,26 @@ export const ViewCourseDetails = () => {
     }, [id]);
 
     const handleLike = async () => {
+        if(!course) return;
         try {
             const response = await axios.post(`${BACKEND_URL}/bh/v1/like/create`, {
                 courseId:Number(id),
-                liked: !course?.liked
+                liked: !course.liked
             }, {
                 withCredentials: true,
             });
 
 
             if (response.status === 200) {
-                setCourse(prev => ({
-                    ...prev!,
-                    liked: !prev!.liked,
-                    totalLikes: prev!.totalLikes + (prev!.liked ? -1 : 1)
-                }));
+                setCourse(prev => {
+                    if(!prev) return prev;
+                    const newLike=!prev.liked;
+                    return {
+                    ...prev,
+                    liked: newLike,
+                    totalLikes:newLike?String(Number(prev.totalLikes)+1) : String(Number(prev.totalLikes)-1)
+                    }
+                });
                 toast.success(course?.liked ? "Course unliked" : "Course liked");
             } else {
                 console.error('Unexpected response status:', response.status);
@@ -136,7 +141,18 @@ export const ViewCourseDetails = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
+            <ToastContainer
+            position='top-center'
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='colored'
+             />
         </>
     );
 };
