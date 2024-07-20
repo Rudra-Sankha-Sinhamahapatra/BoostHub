@@ -167,8 +167,9 @@ courseRouter.get('/courses',authMiddleware,async(req:any,res:any)=>{
 })
 
 
-courseRouter.get('/:id',authMiddleware,async(req,res)=>{
+courseRouter.get('/:id',authMiddleware,async(req:any,res)=>{
   const {id}=req.params;
+ const userId=req.user.id;
 
   try {
     const course=await prisma.course.findUnique({
@@ -181,15 +182,43 @@ courseRouter.get('/:id',authMiddleware,async(req,res)=>{
         createdAt:true,
         updatedAt:true,
         teacher:true,
-        teacherId:true
-      }
-    });
+        teacherId:true,
+        likes:{
+          select:{
+            userId:true
+          }
+        },
+        comments:{
+          select:{
+            comment:true,
+            createdAt:true,
+            user:{
+              select:{
+                name:true,
+              }
+            }
+          }
+        },
+        ratings:{
+          select:{
+            rating:true
+        }
+      },
+    }
+  });
 
     if(!course){
       return res.status(404).json({
         message:"Course not found"
       })
     }
+
+    const totalLikes = course.likes.length;
+    const totalRatings = course.ratings.length;
+    const averageRating = totalRatings > 0
+      ? course.ratings.reduce((sum, r) => sum + (r.rating || 0), 0) / totalRatings
+      : 0;
+      const userHasLiked = course.likes.some(like => like.userId === userId);
 
     return res.status(200).json({
       id:id,
@@ -208,7 +237,12 @@ courseRouter.get('/:id',authMiddleware,async(req,res)=>{
         id:course.teacherId,
         name:course.teacher.name,
         role:course.teacher.role
-      }
+      },
+      totalLikes:totalLikes.toString(),
+      totalRatings:totalRatings.toString(),
+      averageRating:averageRating.toString(),
+      liked:userHasLiked
+
     });
   } catch (error) {
     return res.status(500).json({
