@@ -64,11 +64,12 @@ Userapp.post("/signup", async (req, res) => {
     });
 
     const token = await jwt.sign({ id: user.id }, JWT_SECRET);
-    res.cookie("token", token, {
+   await res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
-      sameSite: "none"
+      sameSite: process.env.NODE_ENV==="production"? "none" :"strict",
+      path:'/'
     });
 
     return res.status(200).json({
@@ -122,13 +123,13 @@ Userapp.post("/login", async (req, res) => {
 
     const token = await jwt.sign({ id: existingUser.id }, JWT_SECRET);
 
-    res.cookie("token", token, {
+    await res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
-      sameSite:"none"
+      sameSite: process.env.NODE_ENV==="production"? "none" :"strict",
+      path:'/'
     });
-
     return res.status(200).json({
       token: token,
       message: "Sign In Successful",
