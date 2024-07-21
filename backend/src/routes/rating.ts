@@ -248,6 +248,34 @@ const deleteSchema=zod.object({
     courseId:zod.number().min(1)
 })
 
+ratingRouter.get("/:id/ratings", authMiddleware, async (req, res) => {
+    const courseId = parseInt(req.params.id);
+
+    try {
+        const ratings = await prisma.rating.findMany({
+            where: { courseId: courseId },
+            select: {
+                id: true,
+                userId: true,
+                rating: true,
+                createdAt: true,
+                updatedAt: true,
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json(ratings);
+    } catch (error) {
+        console.error(error); 
+        return res.status(500).json({ message: "Internal Server Error", error });
+    }
+});
+
 ratingRouter.delete("/delete",authMiddleware,async(req:any,res)=>{
 
     const success=deleteSchema.safeParse(req.body);

@@ -253,7 +253,7 @@ courseRouter.get('/:id',authMiddleware,async(req:any,res)=>{
       },
       totalLikes:totalLikes.toString(),
       totalRatings:totalRatings.toString(),
-      averageRating:averageRating.toString(),
+      averageRating:averageRating.toFixed(2).toString(),
       totalComments:totalComments.toString(),
       totalFeedbacks:totalFeedbacks.toString(),
       liked:userHasLiked,

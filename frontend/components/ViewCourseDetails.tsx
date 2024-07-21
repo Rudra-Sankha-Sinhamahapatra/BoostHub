@@ -149,6 +149,9 @@ export const ViewCourseDetails = () => {
                                     <Link href={`/home/course/${id}/feedback`}>
                                         <Button content="Feedbacks" className="text-white bg-violet-500 py-2 px-3 mt-4 md:mt-6 rounded-md mb-4 hover:bg-violet-700" />
                                     </Link>
+                                    <Link href={`/home/course/${id}/rating`}>
+                                        <Button content="Ratings" className="text-white bg-violet-500 py-2 px-3 mt-4 md:mt-6 rounded-md mb-4 hover:bg-violet-700" />
+                                    </Link>
                                 </div>
                             </div>
                         </div>
