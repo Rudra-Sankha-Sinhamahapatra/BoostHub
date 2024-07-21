@@ -29,15 +29,20 @@ export const Nav = () => {
 
     const logout = useCallback(async () => {
         try {
-            await axios.post(`${BACKEND_URL}/bh/v1/user/logout`, {}, {
+          const res =  await axios.post(`${BACKEND_URL}/bh/v1/user/logout`, {}, {
                 withCredentials: true,
             });
 
+            if(res.status===200){
             toast.success("Logged out Successfully!");
 
             setTimeout(() => {
                 router.push('/');
             }, 3200);
+        }
+        else{
+            toast.error("Logout Failed")
+        }
         } catch (error) {
             toast.error("Logout Failed", {
                 autoClose: 2000

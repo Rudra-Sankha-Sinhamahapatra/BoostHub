@@ -37,7 +37,7 @@ export default function InputBox({
 
   const handleSignin = useCallback(async () => {
     try {
-      await axios.post(
+     const res = await axios.post(
         `${BACKEND_URL}/bh/v1/user/login`,
         {
           email,
@@ -47,11 +47,17 @@ export default function InputBox({
           withCredentials: true,
         }
       );
+
+      if(res.status===200){
       toast.success("Signed In Successfully!")
 
       setTimeout(()=>{
       router.push('/home')
       },3200);
+    }
+    else {
+      toast.error("Sign in failed");
+    }
     } catch (error) {
       console.error(error);
     }
@@ -59,7 +65,7 @@ export default function InputBox({
 
   const handleSignup = useCallback(async () => {
     try {
-      await axios.post(
+     const res = await axios.post(
         `${BACKEND_URL}/bh/v1/user/signup`,
         {
           email,
@@ -71,11 +77,17 @@ export default function InputBox({
           withCredentials: true,
         }
       );
+
+      if(res.status===200){
       toast.success("Signed Up Successfully!")
 
       setTimeout(()=>{
       router.push('/home')
       },3200);
+    }
+    else {
+      toast.error("Cant sign up")
+    }
 
     } catch (error) {
       console.error(error);
