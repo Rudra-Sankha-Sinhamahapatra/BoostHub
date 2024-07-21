@@ -199,6 +199,17 @@ courseRouter.get('/:id',authMiddleware,async(req:any,res)=>{
             }
           }
         },
+        feedbacks:{
+          select:{
+            comment:true,
+            createdAt:true,
+            user:{
+              select:{
+                name:true
+              }
+            }
+          }
+        },
         ratings:{
           select:{
             rating:true
@@ -215,6 +226,8 @@ courseRouter.get('/:id',authMiddleware,async(req:any,res)=>{
 
     const totalLikes = course.likes.length;
     const totalRatings = course.ratings.length;
+    const totalComments=course.comments.length;
+    const totalFeedbacks=course.feedbacks.length;
     const averageRating = totalRatings > 0
       ? course.ratings.reduce((sum, r) => sum + (r.rating || 0), 0) / totalRatings
       : 0;
@@ -241,6 +254,8 @@ courseRouter.get('/:id',authMiddleware,async(req:any,res)=>{
       totalLikes:totalLikes.toString(),
       totalRatings:totalRatings.toString(),
       averageRating:averageRating.toString(),
+      totalComments:totalComments.toString(),
+      totalFeedbacks:totalFeedbacks.toString(),
       liked:userHasLiked,
       comments:course.comments
 

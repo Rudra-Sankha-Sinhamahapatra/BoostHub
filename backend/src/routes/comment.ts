@@ -182,6 +182,51 @@ commentRouter.put("/:id/update",authMiddleware,async(req:any,res)=>{
     }
 })
 
+commentRouter.get("/:id/comments",authMiddleware,async(req:any,res)=>{
+    const courseId=parseInt(req.params.id);
+
+    try{
+
+        const courseExists=await prisma.course.findUnique({
+            where:{
+                id:courseId
+            }
+        })
+
+  if(!courseExists){
+    return res.status(404).json({
+        message:"This course dosen't exists"
+    })
+  }
+
+    const comments=await prisma.comment.findMany({
+        where:{
+            courseId:courseId
+        },
+        include:{
+            user:{
+                select:{
+                    name:true,
+                    role:true
+                },
+            },
+        },
+        orderBy:{
+            createdAt:'asc'
+        }
+    });
+return res.status(200).json({
+    comments:comments
+})
+}
+catch(error){
+    res.status(500).json({
+        message:"Internal Server Error",
+        error:error
+    })
+}
+})
+
 commentRouter.delete("/:id/delete",authMiddleware,async(req,res)=>{
     const commentId=parseInt(req.params.id);
 
