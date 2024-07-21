@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -b tsconfig.json && npm install",
-    "start":"node dist/index.js"
+    "prebuild": "npm install",
+    "build": "tsc -b tsconfig.json",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +14,6 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^5.17.0",
-    "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.14.10",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -27,6 +25,9 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
-    "@types/cors": "^2.8.17"
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.14.11"
   }
 }
