@@ -1,8 +1,3 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/" }
-    ],
-    "regions": ["sin1"],
-    "defaultRegion": "sin1"
+    "rewrites": [{ "source": "/(.*)", "destination": "/" }]
   }
-  
