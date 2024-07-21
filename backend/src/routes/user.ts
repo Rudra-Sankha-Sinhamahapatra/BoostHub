@@ -66,7 +66,7 @@ Userapp.post("/signup", async (req, res) => {
     const token = await jwt.sign({ id: user.id }, JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
       sameSite: "none"
     });
@@ -124,7 +124,7 @@ Userapp.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
       sameSite:"none"
     });
