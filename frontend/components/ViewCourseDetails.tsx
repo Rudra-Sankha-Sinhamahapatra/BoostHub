@@ -30,6 +30,8 @@ interface Course {
     totalLikes: string;
     totalRatings: string;
     averageRating: string;
+    totalComments:string;
+    totalFeedbacks:string;
     liked: boolean;
 }
 
@@ -131,6 +133,8 @@ export const ViewCourseDetails = () => {
                                 <p className="font-bold mt-4 md:mt-6 text-violet-500">Likes: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalLikes}</span></p>
                                 <p className="font-bold mt-4 md:mt-6 text-violet-500">Ratings Given by Users: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalRatings}</span></p>
                                 <p className="font-bold mt-4 md:mt-6 text-violet-500">Rating: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.averageRating}</span></p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Total Comments: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalComments}</span></p>
+                                <p className="font-bold mt-4 md:mt-6 text-violet-500">Total Feedbacks: <span className="text-gray-500 mt-2 md:mt-3 max-h-12 w-full overflow-hidden overflow-ellipsis">{course.totalFeedbacks}</span></p>
                                 <div className="flex flex-col md:flex-row md:space-x-3">
                                     <button
                                         onClick={handleLike}

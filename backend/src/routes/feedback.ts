@@ -73,6 +73,53 @@ feedbackRouter.get('/feedbacks',authMiddleware,async(req:any,res:any)=>{
     }
 })
 
+feedbackRouter.get('/:id/feedbacks',authMiddleware,async(req:any,res:any)=>{
+    const courseId=parseInt(req.params.id);
+
+    try{
+
+        const courseExists=await prisma.course.findUnique({
+            where:{
+                id:courseId
+            }
+        })
+
+  if(!courseExists){
+    return res.status(404).json({
+        message:"This course dosen't exists"
+    })
+  }
+
+    const feedbacks=await prisma.feedback.findMany({
+      where:{
+        courseId:courseId
+      },
+      include :{
+        user:{
+            select:{
+                name:true,
+                role:true
+            },
+        },
+      },
+      orderBy:{
+        createdAt:'asc'
+      }
+    })
+
+    return res.status(200).json({
+    feedbacks:feedbacks
+    });
+
+    }
+    catch(error){
+   res.status(500).json({
+    message:"Interval Server Error",
+    error:error
+   })
+    }
+})
+
 const createSchema=zod.object({
     courseId:zod.number().min(1),
     comment:zod.string().min(1)
