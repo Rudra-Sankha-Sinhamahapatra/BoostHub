@@ -56,7 +56,6 @@ Userapp.post("/signup", async (req, res) => {
 
     const token = await jwt.sign({ id: user.id }, JWT_SECRET);
    await res.cookie("token", token, {
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
@@ -114,7 +113,6 @@ Userapp.post("/login", async (req, res) => {
     const token = await jwt.sign({ id: existingUser.id }, JWT_SECRET);
 
     await res.cookie("token", token, {
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
