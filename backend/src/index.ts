@@ -18,10 +18,6 @@ app.use(cors({
     credentials:true
 }));
 
-const router=express.Router();
-
-
-
 app.use('/bh/v1/user',Userapp);
 app.use('/bh/v1/course',courseRouter);
 app.use('/bh/v1/feedback',feedbackRouter);

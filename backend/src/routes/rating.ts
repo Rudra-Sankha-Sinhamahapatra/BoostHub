@@ -2,7 +2,6 @@ import express from "express"
 import zod from "zod"
 import prisma from "../prisma"
 import { authMiddleware } from "../middleware"
-import { createTracing } from "trace_events";
 
 export const ratingRouter=express.Router();
 
