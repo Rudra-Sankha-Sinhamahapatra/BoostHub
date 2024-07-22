@@ -18,6 +18,8 @@ app.use(cors({
     credentials:true
 }));
 
+console.log(`${FRONTEND_URL}`);
+
 app.use('/bh/v1/user',Userapp);
 app.use('/bh/v1/course',courseRouter);
 app.use('/bh/v1/feedback',feedbackRouter);
