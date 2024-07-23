@@ -9,7 +9,8 @@ export default function Signin() {
     const value = token?.value || "";
 
     let isLoggedIn = false;
-
+   console.log(`${JWT_SECRET}`);
+    
     if (value) {
         try {
             const res = jwt.verify(value, JWT_SECRET);
@@ -22,6 +23,8 @@ export default function Signin() {
     }
 
     if (isLoggedIn) {
+        console.log(`${value}`)
+        console.log(`${token}`)
         return <NoPage label="You are Logged In, Please" choice="Logout" route="home" />;
     }
 
