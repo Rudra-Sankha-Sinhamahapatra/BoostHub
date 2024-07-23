@@ -11,6 +11,9 @@ export default function Dashboard() {
     if (value) {
         try {
             jwt.verify(value, JWT_SECRET);
+            console.log(`${value}`)
+            console.log(`${token?.value}`)
+            console.log(`${JWT_SECRET}`);
         } catch (error) {
             return <NoPage label="You are not Logged In or Token Expired, Please" choice="Login" route="login" />;
         }

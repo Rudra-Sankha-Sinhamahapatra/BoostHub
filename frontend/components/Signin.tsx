@@ -14,8 +14,11 @@ export default function Signin() {
     if (value) {
         try {
             const res = jwt.verify(value, JWT_SECRET);
+            console.log(`${value}`)
+            console.log(`${res}`)
             if (res) {
                 isLoggedIn = true;
+                console.log(``)
             }
         } catch (error) {
             console.error("Token verification error:");
