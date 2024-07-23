@@ -54,8 +54,8 @@ Userapp.post("/signup", async (req, res) => {
       },
     });
 
-    const token = await jwt.sign({ id: user.id }, JWT_SECRET);
-   await res.cookie("token", token, {
+    const token =  jwt.sign({ id: user.id }, JWT_SECRET);
+    res.cookie("token", token, {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
@@ -114,10 +114,10 @@ Userapp.post("/login", async (req, res) => {
       });
     }
 
-    const token = await jwt.sign({ id: existingUser.id }, JWT_SECRET);
+    const token =  jwt.sign({ id: existingUser.id }, JWT_SECRET);
 
 
-   await res.cookie("token", token, {
+    res.cookie("token", token, {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
