@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import zod from "zod";
 import prisma from "../prisma";
 import bcrypt from "bcrypt";
-import { JWT_SECRET, NODE_ENV } from "../conf";
+import { JWT_SECRET} from "../conf";
 import { authMiddleware } from "../middleware";
 
 export const Userapp = express.Router();
@@ -57,9 +57,9 @@ Userapp.post("/signup", async (req, res) => {
     const token = await jwt.sign({ id: user.id }, JWT_SECRET);
    await res.cookie("token", token, {
     httpOnly:true,
-      secure: NODE_ENV === "development" ? false : true,
+      secure: process.env.NODE_ENV === "development" ? false : true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
-      sameSite: NODE_ENV === 'development' ? 'strict' : 'none'
+      sameSite: process.env.NODE_ENV === 'development' ? 'strict' : 'none'
     });
 
     return res.status(200).json({
@@ -116,9 +116,9 @@ Userapp.post("/login", async (req, res) => {
 
    await res.cookie("token", token, {
     httpOnly:true,
-      secure: NODE_ENV === "development" ? false : true,
+      secure: process.env.NODE_ENV === "development" ? false : true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
-      sameSite: NODE_ENV === 'development' ? 'strict' : 'none'
+      sameSite: process.env.NODE_ENV === 'development' ? 'strict' : 'none'
     });
 
     return res.status(200).json({
