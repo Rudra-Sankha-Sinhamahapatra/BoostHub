@@ -38,7 +38,7 @@ export default function InputBox({
   const handleSignin = useCallback(async () => {
     try {
      const res = await axios.post(
-        `${BACKEND_URL}/bh/v1/user/login`,
+        `https://boosthub-backend.vercel.app/bh/v1/user/login`,
         {
           email,
           password,
@@ -66,7 +66,7 @@ export default function InputBox({
   const handleSignup = useCallback(async () => {
     try {
      const res = await axios.post(
-        `${BACKEND_URL}/bh/v1/user/signup`,
+        `https://boosthub-backend.vercel.app/bh/v1/user/signup`,
         {
           email,
           password,
