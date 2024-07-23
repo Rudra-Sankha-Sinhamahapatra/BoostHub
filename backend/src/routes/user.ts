@@ -58,7 +58,7 @@ Userapp.post("/signup", async (req, res) => {
     res.cookie("token", token, {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
-      maxAge: Infinity,
+      maxAge:15 * 60 * 1000,
       sameSite: NODE_ENV === 'development' ? 'strict' : 'none',
       domain: NODE_ENV === 'development' ? 'localhost' :'boost-hub.vercel.app',
       path:'/'
@@ -102,6 +102,8 @@ Userapp.post("/login", async (req, res) => {
         email: email,
       },
     });
+  
+    console.log(`${existingUser?.email}`);
 
     if (!existingUser) {
       return res.status(403).json({
@@ -118,11 +120,11 @@ Userapp.post("/login", async (req, res) => {
 
     const token =  jwt.sign({ id: existingUser.id }, JWT_SECRET);
 
-
+   console.log(`${token}`)
     res.cookie("token", token, {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
-      maxAge: Infinity,
+      maxAge:15 * 60 * 1000,
       sameSite: NODE_ENV === 'development' ? 'strict' : 'none',
         domain: NODE_ENV === 'development' ? 'localhost' :'boost-hub.vercel.app',
       path:'/'
