@@ -20,6 +20,12 @@ app.use(cors({
 
 console.log(`${FRONTEND_URL}`);
 
+app.get('/',(req,res)=>{
+    return res.status(200).json({
+        msg:"Hello World"
+    })
+})
+
 app.use('/bh/v1/user',Userapp);
 app.use('/bh/v1/course',courseRouter);
 app.use('/bh/v1/feedback',feedbackRouter);
