@@ -59,7 +59,9 @@ Userapp.post("/signup", async (req, res) => {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
-      sameSite: NODE_ENV === 'development' ? 'strict' : 'none'
+      sameSite: NODE_ENV === 'development' ? 'strict' : 'none',
+      domain: NODE_ENV === 'development' ? 'localhost' :'boost-hub.vercel.app',
+      path:'/'
     });
 
     return res.status(200).json({
@@ -121,7 +123,9 @@ Userapp.post("/login", async (req, res) => {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
       maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
-      sameSite: NODE_ENV === 'development' ? 'strict' : 'none'
+      sameSite: NODE_ENV === 'development' ? 'strict' : 'none',
+        domain: NODE_ENV === 'development' ? 'localhost' :'boost-hub.vercel.app',
+      path:'/'
     });
 
     return res.status(200).json({
