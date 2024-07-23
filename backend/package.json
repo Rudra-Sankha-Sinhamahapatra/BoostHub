@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && tsc -b",
-    "start": "node dist/index.js" 
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.14.11"
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.4"
   }
 }
