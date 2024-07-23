@@ -58,7 +58,7 @@ Userapp.post("/signup", async (req, res) => {
     res.cookie("token", token, {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
-      maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
+      maxAge: Infinity,
       sameSite: NODE_ENV === 'development' ? 'strict' : 'none',
       domain: NODE_ENV === 'development' ? 'localhost' :'boost-hub.vercel.app',
       path:'/'
@@ -122,7 +122,7 @@ Userapp.post("/login", async (req, res) => {
     res.cookie("token", token, {
     httpOnly:true,
       secure: NODE_ENV === "development" ? false : true,
-      maxAge: 2 * 30 * 24 * 60 * 60 * 1000,
+      maxAge: Infinity,
       sameSite: NODE_ENV === 'development' ? 'strict' : 'none',
         domain: NODE_ENV === 'development' ? 'localhost' :'boost-hub.vercel.app',
       path:'/'
