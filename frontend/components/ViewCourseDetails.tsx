@@ -1,3 +1,5 @@
+// components/ViewCourseDetails.tsx
+
 "use client";
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -30,14 +32,14 @@ interface Course {
     totalLikes: string;
     totalRatings: string;
     averageRating: string;
-    totalComments:string;
-    totalFeedbacks:string;
+    totalComments: string;
+    totalFeedbacks: string;
     liked: boolean;
 }
 
 export const ViewCourseDetails = () => {
     const params = useParams();
-    const id = params.courseId; 
+    const id = params.courseId;
     const [course, setCourse] = useState<Course | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -66,7 +68,7 @@ export const ViewCourseDetails = () => {
     }, [id]);
 
     const handleLike = async () => {
-        if(!course) return;
+        if (!course) return;
         try {
             const response = await axios.post(`${BACKEND_URL}/bh/v1/like/create`, {
                 courseId: Number(id),
@@ -77,7 +79,7 @@ export const ViewCourseDetails = () => {
 
             if (response.status === 200) {
                 setCourse(prev => {
-                    if(!prev) return prev;
+                    if (!prev) return prev;
                     const newLike = !prev.liked;
                     return {
                         ...prev,
@@ -168,7 +170,6 @@ export const ViewCourseDetails = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="colored"
             />
         </>
     );
