@@ -14,6 +14,7 @@ export default function Signin() {
     if (value) {
         try {
             const res = jwt.verify(value, JWT_SECRET);
+            console.log(`${token}`);
             console.log(`${value}`)
             console.log(`${res}`)
             if (res) {
