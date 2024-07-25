@@ -10,12 +10,12 @@ export default function Signin() {
 
     let isLoggedIn = false;
    console.log(`${JWT_SECRET}`);
-    
+   console.log(`${token}`);
+   console.log(`${value}`)
+
     if (value) {
         try {
             const res = jwt.verify(value, JWT_SECRET);
-            console.log(`${token}`);
-            console.log(`${value}`)
             console.log(`${res}`)
             if (res) {
                 isLoggedIn = true;

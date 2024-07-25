@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -13,7 +13,7 @@ export function CreateCourse() {
   const [content, setContent] = useState("");
   const router=useRouter();
 
-  const Create=useCallback(async()=>{
+  const Create=async()=>{
       try {
         await axios.post(`${BACKEND_URL}/bh/v1/course/create`,{
             title,
@@ -29,8 +29,13 @@ export function CreateCourse() {
       } catch (error) {
         toast.error("Failed to create course.");
       }
-  },[router,title,description,content]);
+  };
 
+
+  useEffect(() => {
+    CreateCourse();
+  }, [router,title,content,description]);
+  
   return (
     <>
       <div className="dark:bg-black dark:text-white min-h-screen px-4 sm:px-6 lg:px-8">
