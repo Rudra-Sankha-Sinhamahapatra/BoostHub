@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -11,31 +11,26 @@ export function CreateCourse() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
-  const router=useRouter();
+  const router = useRouter();
 
-  const Create=async()=>{
-      try {
-        await axios.post(`${BACKEND_URL}/bh/v1/course/create`,{
-            title,
-            description,
-            content
-        },{
-            withCredentials:true,
-        })
-        toast.success("Course created successfully!");
-        setTimeout(() => {
-            router.push('/home/mycourse');
-          }, 4000);
-      } catch (error) {
-        toast.error("Failed to create course.");
-      }
+  const Create = async () => {
+    try {
+      await axios.post(`${BACKEND_URL}/bh/v1/course/create`, {
+        title,
+        description,
+        content,
+      }, {
+        withCredentials: true,
+      });
+      toast.success("Course created successfully!");
+      setTimeout(() => {
+        router.push('/home/mycourse');
+      }, 4000);
+    } catch (error) {
+      toast.error("Failed to create course.");
+    }
   };
 
-
-  useEffect(() => {
-    CreateCourse();
-  }, [router,title,content,description]);
-  
   return (
     <>
       <div className="dark:bg-black dark:text-white min-h-screen px-4 sm:px-6 lg:px-8">
@@ -47,10 +42,10 @@ export function CreateCourse() {
             </label>
             <div className="">
               <textarea
-               id="title"
+                id="title"
                 className="text-black border border-black w-full p-2 h-14"
                 value={title}
-                placeholder="Write the Title (Min 3 letter)"
+                placeholder="Write the Title (Min 3 letters)"
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
@@ -63,10 +58,10 @@ export function CreateCourse() {
             </label>
             <div className="">
               <textarea
-              id="content"
+                id="content"
                 className="text-black border border-black w-full p-2 h-20"
                 value={content}
-                placeholder="Write the Content(min 3 letter)"
+                placeholder="Write the Content (min 3 letters)"
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
@@ -82,7 +77,7 @@ export function CreateCourse() {
                 id="description"
                 className="text-black border border-black w-full p-2 h-52"
                 value={description}
-                placeholder="Write the Description (min 3 letter)"
+                placeholder="Write the Description (min 3 letters)"
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
@@ -97,16 +92,16 @@ export function CreateCourse() {
         </div>
       </div>
       <ToastContainer
-       position="top-center" 
-       autoClose={3000} 
-       hideProgressBar={false} 
-       newestOnTop={false} 
-       closeOnClick 
-       rtl={false} 
-       pauseOnFocusLoss 
-       draggable 
-       pauseOnHover 
-       theme="colored" 
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
     </>
   );
